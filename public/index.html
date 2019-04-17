@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>武汉市活动区域知识图谱</title>
+    <!--<script src="./plugins/jquery/jquery-3.1.1.min.js"></script>-->
+    <script src="./plugins/jquery/jquery.min.js"></script>
+    <script src="./plugins/jquery/jquery1.min.js"></script>
+    <script src="./plugins/echarts/echarts.js"></script>
+    <link rel="stylesheet" type="text/css" href="./stylesheets/index.css">
+</head>
+<body>
+<!--创建标题-->
+    <h1 style="text-align:center;">
+        <span><span style="color:#337FE5;"><br />
+    </span></span>
+    </h1>
+    <h1 style="text-align:center;">
+        <span><span style="color:#337FE5;"></span><span style="color:#337FE5;">武汉市城市活动区域知识图谱</span></span><span style="color:#337FE5;"></span>
+    </h1>
+    <p>
+        <span><span style="color:#337FE5;"><br />
+    </span></span>
+    </p>
+    <p>
+        <br />
+    </p>
+    <hr />
+    <h2>
+        <span style="color:#000000;font-family:SimSun;">旅游规划与推荐</span><span style="color:#000000;"><span style="font-family:SimSun;"></span><span style="font-family:SimSun;"></span></span>
+    </h2>
+    <p>
+        <br />
+    </p>
+    <ul class="select">
+        <li class="select-list">
+            <dl id="select1">
+                <dt>区划范围：</dt>
+                <dd class="select-all selected"><a href="javascript:void(0)">全部</a></dd>
+                <dd><a href="javascript:void(0)">蔡甸</a></dd>
+                <dd><a href="javascript:void(0)">东西湖</a></dd>
+                <dd><a href="javascript:void(0)">汉南</a></dd>
+                <dd><a href="javascript:void(0)">汉阳</a></dd>
+                <dd><a href="javascript:void(0)">洪山</a></dd>
+                <dd><a href="javascript:void(0)">黄陂</a></dd>
+                <dd><a href="javascript:void(0)">江岸</a></dd>
+                <dd><a href="javascript:void(0)">江汉</a></dd>
+                <dd><a href="javascript:void(0)">江夏</a></dd>
+                <dd><a href="javascript:void(0)">硚口</a></dd>
+                <dd><a href="javascript:void(0)">青山</a></dd>
+                <dd><a href="javascript:void(0)">武昌</a></dd>
+                <dd><a href="javascript:void(0)">新洲</a></dd>
+            </dl>
+        </li>
+        <li class="select-list">
+            <dl id="select2">
+                <dt>餐饮类别：</dt>
+                <dd class="select-all selected"><a href="javascript:void(0)">全部</a></dd>
+                <dd><a href="javascript:void(0)">中餐</a></dd>
+                <dd><a href="javascript:void(0)">外国餐</a></dd>
+            </dl>
+        </li>
+        <li class="select-list">
+            <dl id="select3">
+                <dt>住宿：</dt>
+                <dd class="select-all selected"><a href="javascript:void(0)">全部</a></dd>
+                <dd><a href="javascript:void(0)">酒店/宾馆</a></dd>
+                <dd><a href="javascript:void(0)">招待所</a></dd>
+            </dl>
+        </li>
+        <li class="select-result">
+            <dl>
+                <dt>已选条件：</dt>
+            </dl>
+        </li>
+    </ul>
+
+    <div id="button1">
+        <div class="demo">
+            <button class="button blue" onclick="testAjax()">查询</button>
+        </div>
+    </div>
+
+
+    <!--添加力引导图，其id 为main/ss-->
+    <div id="main" style="width: 1000px; height: 800px"></div>
+    <div id="ss" ></div>
+<!--测试登录-->
+    <!--<div id="test">-->
+        <!--<h1>Main Page</h1>-->
+    <!--</div>-->
+    <!--<p>Register & Login</p>-->
+    <!--账号 :-->
+    <!--<input type="text" id="name" />-->
+        <!--<br/><br/>-->
+    <!--密码 :-->
+    <!--<input type="text" id="pwd" />-->
+    <!--<br/><br/>-->
+        <!--&nbsp&nbsp&nbsp&nbsp&nbsp-->
+    <!--<div><a href="/add" id="add">EXTRA</a></div>-->
+    <!--<input type="button" value="Submit" id="login" onclick="login()">-->
+
+<script type="application/javascript" src="./javascripts/index.js"></script>
+<script>
+    require.config({
+        paths : {
+            echarts : 'http://echarts.baidu.com/build/dist'
+        }
+    });
+    require([ "echarts", "echarts/chart/force"], function(ec) {
+        var myChart = ec.init(document.getElementById('main'), 'macarons');
+        var option = {
+            tooltip : {
+                show : false
+            },
+            series : [ {
+                type : 'force',
+                name : "Force tree",
+                itemStyle : {
+                    normal : {
+                        label : {show : true},
+                        nodeStyle : {
+                            brushType : 'both',
+                            borderColor : 'rgba(255,215,0,0.4)',
+                            borderWidth : 1
+                        }
+                    }
+                },
+                categories : [ {name : '市名'}, {name : '区名'}, {name : '功能区'} ],
+                nodes :
+                    [   {id:0,  category:0,name:'0',  label:'武汉市',          symbolSize:40,ignore:false,flag:true},
+                        {id:1,  category:1,name:'1',  label:'蔡甸区',          symbolSize:30,ignore:true,flag:true},
+                        {id:2,  category:1,name:'2',  label:'东西湖区',        symbolSize:30,ignore:true,flag:true},
+                        {id:3,  category:1,name:'3',  label:'汉南区',          symbolSize:30,ignore:true,flag:true},
+                        {id:4,  category:1,name:'4',  label:'汉阳区',          symbolSize:30,ignore:true,flag:true},
+                        {id:5,  category:1,name:'5',  label:'洪山区',          symbolSize:30,ignore:true,flag:true},
+                        {id:6,  category:1,name:'6',  label:'黄陂区',          symbolSize:30,ignore:true,flag:true},
+                        {id:7,  category:1,name:'7',  label:'江岸区',          symbolSize:30,ignore:true,flag:true},
+                        {id:8,  category:1,name:'8',  label:'江汉区',          symbolSize:30,ignore:true,flag:true},
+                        {id:9,  category:1,name:'9',  label:'江夏区',          symbolSize:30,ignore:true,flag:true},
+                        {id:10, category:1,name:'10', label:'硚口区',          symbolSize:30,ignore:true,flag:true},
+                        {id:11, category:1,name:'11', label:'青山区',          symbolSize:30,ignore:true,flag:true},
+                        {id:12, category:1,name:'12', label:'武昌区',          symbolSize:30,ignore:true,flag:true},
+                        {id:13, category:1,name:'13', label:'新洲区',          symbolSize:30,ignore:true,flag:true},
+                        {id:14, category:2,name:'14', label:'蔡甸_宾馆',       symbolSize:20,ignore:true,flag:true,type:'蔡甸'},
+                        {id:15, category:2,name:'15', label:'蔡甸_餐饮',       symbolSize:20,ignore:true,flag:true,type:'蔡甸'},
+                        {id:16, category:2,name:'16', label:'蔡甸_风景',       symbolSize:20,ignore:true,flag:true,type:'蔡甸'},
+                        {id:17, category:2,name:'17', label:'蔡甸_公共设施',   symbolSize:20,ignore:true,flag:true,type:'蔡甸'},
+                        {id:18, category:2,name:'18', label:'蔡甸_公司',       symbolSize:20,ignore:true,flag:true,type:'蔡甸'},
+                        {id:19, category:2,name:'19', label:'蔡甸_生活',       symbolSize:20,ignore:true,flag:true,type:'蔡甸'},
+                        {id:20, category:2,name:'20', label:'蔡甸_购物',       symbolSize:20,ignore:true,flag:true,type:'蔡甸'},
+                        {id:21, category:2,name:'21', label:'蔡甸_体育',       symbolSize:20,ignore:true,flag:true,type:'蔡甸'},
+                        {id:22, category:2,name:'22', label:'蔡甸_医疗',       symbolSize:20,ignore:true,flag:true,type:'蔡甸'},
+                        {id:23, category:2,name:'23', label:'蔡甸_教育',       symbolSize:20,ignore:true,flag:true,type:'蔡甸'},
+                        {id:24, category:2,name:'24', label:'蔡甸_政府',       symbolSize:20,ignore:true,flag:true,type:'蔡甸'},
+                        {id:25, category:2,name:'25', label:'蔡甸_住宅',       symbolSize:20,ignore:true,flag:true,type:'蔡甸'},
+                        {id:26, category:2,name:'26', label:'东西湖_宾馆',     symbolSize:20,ignore:true,flag:true,type:'东西湖'},
+                        {id:27, category:2,name:'27', label:'东西湖_餐饮',     symbolSize:20,ignore:true,flag:true,type:'东西湖'},
+                        {id:28, category:2,name:'28', label:'东西湖_风景',     symbolSize:20,ignore:true,flag:true,type:'东西湖'},
+                        {id:29, category:2,name:'29', label:'东西湖_公共设施', symbolSize:20,ignore:true,flag:true,type:'东西湖'},
+                        {id:30, category:2,name:'30', label:'东西湖_公司',     symbolSize:20,ignore:true,flag:true,type:'东西湖'},
+                        {id:31, category:2,name:'31', label:'东西湖_生活',     symbolSize:20,ignore:true,flag:true,type:'东西湖'},
+                        {id:32, category:2,name:'32', label:'东西湖_购物',     symbolSize:20,ignore:true,flag:true,type:'东西湖'},
+                        {id:33, category:2,name:'33', label:'东西湖_体育',     symbolSize:20,ignore:true,flag:true,type:'东西湖'},
+                        {id:34, category:2,name:'34', label:'东西湖_医疗',     symbolSize:20,ignore:true,flag:true,type:'东西湖'},
+                        {id:35, category:2,name:'35', label:'东西湖_教育',     symbolSize:20,ignore:true,flag:true,type:'东西湖'},
+                        {id:36, category:2,name:'36', label:'东西湖_政府',     symbolSize:20,ignore:true,flag:true,type:'东西湖'},
+                        {id:37, category:2,name:'37', label:'东西湖_住宅',     symbolSize:20,ignore:true,flag:true,type:'东西湖'},
+                        {id:38, category:2,name:'38', label:'汉南_宾馆',     symbolSize:20,ignore:true,flag:true,type:'汉南'},
+                        {id:39, category:2,name:'39', label:'汉南_餐饮',     symbolSize:20,ignore:true,flag:true,type:'汉南'},
+                        {id:40, category:2,name:'40', label:'汉南_风景',     symbolSize:20,ignore:true,flag:true,type:'汉南'},
+                        {id:41, category:2,name:'41', label:'汉南_公共设施', symbolSize:20,ignore:true,flag:true,type:'汉南'},
+                        {id:42, category:2,name:'42', label:'汉南_公司',     symbolSize:20,ignore:true,flag:true,type:'汉南'},
+                        {id:43, category:2,name:'43', label:'汉南_生活',     symbolSize:20,ignore:true,flag:true,type:'汉南'},
+                        {id:44, category:2,name:'44', label:'汉南_购物',     symbolSize:20,ignore:true,flag:true,type:'汉南'},
+                        {id:45, category:2,name:'45', label:'汉南_体育',     symbolSize:20,ignore:true,flag:true,type:'汉南'},
+                        {id:46, category:2,name:'46', label:'汉南_医疗',     symbolSize:20,ignore:true,flag:true,type:'汉南'},
+                        {id:47, category:2,name:'47', label:'汉南_教育',     symbolSize:20,ignore:true,flag:true,type:'汉南'},
+                        {id:48, category:2,name:'48', label:'汉南_政府',     symbolSize:20,ignore:true,flag:true,type:'汉南'},
+                        {id:49, category:2,name:'49', label:'汉南_住宅',     symbolSize:20,ignore:true,flag:true,type:'汉南'},
+                        {id:50, category:2,name:'50', label:'汉阳_宾馆',     symbolSize:20,ignore:true,flag:true,type:'汉阳'},
+                        {id:51, category:2,name:'51', label:'汉阳_餐饮',     symbolSize:20,ignore:true,flag:true,type:'汉阳'},
+                        {id:52, category:2,name:'52', label:'汉阳_风景',     symbolSize:20,ignore:true,flag:true,type:'汉阳'},
+                        {id:53, category:2,name:'53', label:'汉阳_公共设施', symbolSize:20,ignore:true,flag:true,type:'汉阳'},
+                        {id:54, category:2,name:'54', label:'汉阳_公司',     symbolSize:20,ignore:true,flag:true,type:'汉阳'},
+                        {id:55, category:2,name:'55', label:'汉阳_生活',     symbolSize:20,ignore:true,flag:true,type:'汉阳'},
+                        {id:56, category:2,name:'56', label:'汉阳_购物',     symbolSize:20,ignore:true,flag:true,type:'汉阳'},
+                        {id:57, category:2,name:'57', label:'汉阳_体育',     symbolSize:20,ignore:true,flag:true,type:'汉阳'},
+                        {id:58, category:2,name:'58', label:'汉阳_医疗',     symbolSize:20,ignore:true,flag:true,type:'汉阳'},
+                        {id:59, category:2,name:'59', label:'汉阳_教育',     symbolSize:20,ignore:true,flag:true,type:'汉阳'},
+                        {id:60, category:2,name:'60', label:'汉阳_政府',     symbolSize:20,ignore:true,flag:true,type:'汉阳'},
+                        {id:61, category:2,name:'61', label:'汉阳_住宅',     symbolSize:20,ignore:true,flag:true,type:'汉阳'},
+                        {id:62, category:2,name:'62', label:'洪山_宾馆',     symbolSize:20,ignore:true,flag:true,type:'洪山'},
+                        {id:63, category:2,name:'63', label:'洪山_餐饮',     symbolSize:20,ignore:true,flag:true,type:'洪山'},
+                        {id:64, category:2,name:'64', label:'洪山_风景',     symbolSize:20,ignore:true,flag:true,type:'洪山'},
+                        {id:65, category:2,name:'65', label:'洪山_公共设施', symbolSize:20,ignore:true,flag:true,type:'洪山'},
+                        {id:66, category:2,name:'66', label:'洪山_公司',     symbolSize:20,ignore:true,flag:true,type:'洪山'},
+                        {id:67, category:2,name:'67', label:'洪山_生活',     symbolSize:20,ignore:true,flag:true,type:'洪山'},
+                        {id:68, category:2,name:'68', label:'洪山_购物',     symbolSize:20,ignore:true,flag:true,type:'洪山'},
+                        {id:69, category:2,name:'69', label:'洪山_体育',     symbolSize:20,ignore:true,flag:true,type:'洪山'},
+                        {id:70, category:2,name:'70', label:'洪山_医疗',     symbolSize:20,ignore:true,flag:true,type:'洪山'},
+                        {id:71, category:2,name:'71', label:'洪山_教育',     symbolSize:20,ignore:true,flag:true,type:'洪山'},
+                        {id:72, category:2,name:'72', label:'洪山_政府',     symbolSize:20,ignore:true,flag:true,type:'洪山'},
+                        {id:73, category:2,name:'73', label:'洪山_住宅',     symbolSize:20,ignore:true,flag:true,type:'洪山'},
+                        {id:74, category:2,name:'74', label:'黄陂_宾馆',     symbolSize:20,ignore:true,flag:true,type:'黄陂'},
+                        {id:75, category:2,name:'75', label:'黄陂_餐饮',     symbolSize:20,ignore:true,flag:true,type:'黄陂'},
+                        {id:76, category:2,name:'76', label:'黄陂_风景',     symbolSize:20,ignore:true,flag:true,type:'黄陂'},
+                        {id:77, category:2,name:'77', label:'黄陂_公共设施', symbolSize:20,ignore:true,flag:true,type:'黄陂'},
+                        {id:78, category:2,name:'78', label:'黄陂_公司',     symbolSize:20,ignore:true,flag:true,type:'黄陂'},
+                        {id:79, category:2,name:'79', label:'黄陂_生活',     symbolSize:20,ignore:true,flag:true,type:'黄陂'},
+                        {id:80, category:2,name:'80', label:'黄陂_购物',     symbolSize:20,ignore:true,flag:true,type:'黄陂'},
+                        {id:81, category:2,name:'81', label:'黄陂_体育',     symbolSize:20,ignore:true,flag:true,type:'黄陂'},
+                        {id:82, category:2,name:'82', label:'黄陂_医疗',     symbolSize:20,ignore:true,flag:true,type:'黄陂'},
+                        {id:83, category:2,name:'83', label:'黄陂_教育',     symbolSize:20,ignore:true,flag:true,type:'黄陂'},
+                        {id:84, category:2,name:'84', label:'黄陂_政府',     symbolSize:20,ignore:true,flag:true,type:'黄陂'},
+                        {id:85, category:2,name:'85', label:'黄陂_住宅',     symbolSize:20,ignore:true,flag:true,type:'黄陂'},
+                        {id:86, category:2,name:'86', label:'江岸_宾馆',     symbolSize:20,ignore:true,flag:true,type:'江岸'},
+                        {id:87, category:2,name:'87', label:'江岸_餐饮',     symbolSize:20,ignore:true,flag:true,type:'江岸'},
+                        {id:88, category:2,name:'88', label:'江岸_风景',     symbolSize:20,ignore:true,flag:true,type:'江岸'},
+                        {id:89, category:2,name:'89', label:'江岸_公共设施', symbolSize:20,ignore:true,flag:true,type:'江岸'},
+                        {id:90, category:2,name:'90', label:'江岸_公司',     symbolSize:20,ignore:true,flag:true,type:'江岸'},
+                        {id:91, category:2,name:'91', label:'江岸_生活',     symbolSize:20,ignore:true,flag:true,type:'江岸'},
+                        {id:92, category:2,name:'92', label:'江岸_购物',     symbolSize:20,ignore:true,flag:true,type:'江岸'},
+                        {id:93, category:2,name:'93', label:'江岸_体育',     symbolSize:20,ignore:true,flag:true,type:'江岸'},
+                        {id:94, category:2,name:'94', label:'江岸_医疗',     symbolSize:20,ignore:true,flag:true,type:'江岸'},
+                        {id:95, category:2,name:'95', label:'江岸_教育',     symbolSize:20,ignore:true,flag:true,type:'江岸'},
+                        {id:96, category:2,name:'96', label:'江岸_政府',     symbolSize:20,ignore:true,flag:true,type:'江岸'},
+                        {id:97, category:2,name:'97', label:'江岸_住宅',     symbolSize:20,ignore:true,flag:true,type:'江岸'},
+                        {id:98, category:2,name:'98', label:'江汉_宾馆',     symbolSize:20,ignore:true,flag:true,type:'江汉'},
+                        {id:99, category:2,name:'99', label:'江汉_餐饮',     symbolSize:20,ignore:true,flag:true,type:'江汉'},
+                        {id:100,category:2,name:'100',label:'江汉_风景',     symbolSize:20,ignore:true,flag:true,type:'江汉'},
+                        {id:101,category:2,name:'101',label:'江汉_公共设施', symbolSize:20,ignore:true,flag:true,type:'江汉'},
+                        {id:102,category:2,name:'102',label:'江汉_公司',     symbolSize:20,ignore:true,flag:true,type:'江汉'},
+                        {id:103,category:2,name:'103',label:'江汉_生活',     symbolSize:20,ignore:true,flag:true,type:'江汉'},
+                        {id:104,category:2,name:'104',label:'江汉_购物',     symbolSize:20,ignore:true,flag:true,type:'江汉'},
+                        {id:105,category:2,name:'105',label:'江汉_体育',     symbolSize:20,ignore:true,flag:true,type:'江汉'},
+                        {id:106,category:2,name:'106',label:'江汉_医疗',     symbolSize:20,ignore:true,flag:true,type:'江汉'},
+                        {id:107,category:2,name:'107',label:'江汉_教育',     symbolSize:20,ignore:true,flag:true,type:'江汉'},
+                        {id:108,category:2,name:'108',label:'江汉_政府',     symbolSize:20,ignore:true,flag:true,type:'江汉'},
+                        {id:109,category:2,name:'109',label:'江汉_住宅',     symbolSize:20,ignore:true,flag:true,type:'江汉'},
+                        {id:110, category:2,name:'110',label:'江夏_宾馆',    symbolSize:20,ignore:true,flag:true,type:'江夏'},
+                        {id:111, category:2,name:'111',label:'江夏_餐饮',    symbolSize:20,ignore:true,flag:true,type:'江夏'},
+                        {id:112,category:2,name:'112',label:'江夏_风景',     symbolSize:20,ignore:true,flag:true,type:'江夏'},
+                        {id:113,category:2,name:'113',label:'江夏_公共设施', symbolSize:20,ignore:true,flag:true,type:'江夏'},
+                        {id:114,category:2,name:'114',label:'江夏_公司',     symbolSize:20,ignore:true,flag:true,type:'江夏'},
+                        {id:115,category:2,name:'115',label:'江夏_生活',     symbolSize:20,ignore:true,flag:true,type:'江夏'},
+                        {id:116,category:2,name:'116',label:'江夏_购物',     symbolSize:20,ignore:true,flag:true,type:'江夏'},
+                        {id:117,category:2,name:'117',label:'江夏_体育',     symbolSize:20,ignore:true,flag:true,type:'江夏'},
+                        {id:118,category:2,name:'118',label:'江夏_医疗',     symbolSize:20,ignore:true,flag:true,type:'江夏'},
+                        {id:119,category:2,name:'119',label:'江夏_教育',     symbolSize:20,ignore:true,flag:true,type:'江夏'},
+                        {id:120,category:2,name:'120',label:'江夏_政府',     symbolSize:20,ignore:true,flag:true,type:'江夏'},
+                        {id:121,category:2,name:'121',label:'江夏_住宅',     symbolSize:20,ignore:true,flag:true,type:'江夏'},
+                        {id:122,category:2,name:'122',label:'硚口_宾馆',    symbolSize:20,ignore:true,flag:true,type:'硚口'},
+                        {id:123,category:2,name:'123',label:'硚口_餐饮',    symbolSize:20,ignore:true,flag:true,type:'硚口'},
+                        {id:124,category:2,name:'124',label:'硚口_风景',     symbolSize:20,ignore:true,flag:true,type:'硚口'},
+                        {id:125,category:2,name:'125',label:'硚口_公共设施', symbolSize:20,ignore:true,flag:true,type:'硚口'},
+                        {id:126,category:2,name:'126',label:'硚口_公司',     symbolSize:20,ignore:true,flag:true,type:'硚口'},
+                        {id:127,category:2,name:'127',label:'硚口_生活',     symbolSize:20,ignore:true,flag:true,type:'硚口'},
+                        {id:128,category:2,name:'128',label:'硚口_购物',     symbolSize:20,ignore:true,flag:true,type:'硚口'},
+                        {id:129,category:2,name:'129',label:'硚口_体育',     symbolSize:20,ignore:true,flag:true,type:'硚口'},
+                        {id:130,category:2,name:'130',label:'硚口_医疗',     symbolSize:20,ignore:true,flag:true,type:'硚口'},
+                        {id:131,category:2,name:'131',label:'硚口_教育',     symbolSize:20,ignore:true,flag:true,type:'硚口'},
+                        {id:132,category:2,name:'132',label:'硚口_政府',     symbolSize:20,ignore:true,flag:true,type:'硚口'},
+                        {id:133,category:2,name:'133',label:'硚口_住宅',     symbolSize:20,ignore:true,flag:true,type:'硚口'},
+                        {id:134,category:2,name:'134',label:'青山_宾馆',    symbolSize:20,ignore:true,flag:true,type:'青山'},
+                        {id:135,category:2,name:'135',label:'青山_餐饮',    symbolSize:20,ignore:true,flag:true,type:'青山'},
+                        {id:136,category:2,name:'136',label:'青山_风景',     symbolSize:20,ignore:true,flag:true,type:'青山'},
+                        {id:137,category:2,name:'137',label:'青山_公共设施', symbolSize:20,ignore:true,flag:true,type:'青山'},
+                        {id:138,category:2,name:'138',label:'青山_公司',     symbolSize:20,ignore:true,flag:true,type:'青山'},
+                        {id:139,category:2,name:'139',label:'青山_生活',     symbolSize:20,ignore:true,flag:true,type:'青山'},
+                        {id:140,category:2,name:'140',label:'青山_购物',     symbolSize:20,ignore:true,flag:true,type:'青山'},
+                        {id:141,category:2,name:'141',label:'青山_体育',     symbolSize:20,ignore:true,flag:true,type:'青山'},
+                        {id:142,category:2,name:'142',label:'青山_医疗',     symbolSize:20,ignore:true,flag:true,type:'青山'},
+                        {id:143,category:2,name:'143',label:'青山_教育',     symbolSize:20,ignore:true,flag:true,type:'青山'},
+                        {id:144,category:2,name:'144',label:'青山_政府',     symbolSize:20,ignore:true,flag:true,type:'青山'},
+                        {id:145,category:2,name:'145',label:'青山_住宅',     symbolSize:20,ignore:true,flag:true,type:'青山'},
+                        {id:146,category:2,name:'146',label:'武昌_宾馆',    symbolSize:20,ignore:true,flag:true,type:'武昌'},
+                        {id:147,category:2,name:'147',label:'武昌_餐饮',    symbolSize:20,ignore:true,flag:true,type:'武昌'},
+                        {id:148,category:2,name:'148',label:'武昌_风景',     symbolSize:20,ignore:true,flag:true,type:'武昌'},
+                        {id:149,category:2,name:'149',label:'武昌_公共设施', symbolSize:20,ignore:true,flag:true,type:'武昌'},
+                        {id:150,category:2,name:'150',label:'武昌_公司',     symbolSize:20,ignore:true,flag:true,type:'武昌'},
+                        {id:151,category:2,name:'151',label:'武昌_生活',     symbolSize:20,ignore:true,flag:true,type:'武昌'},
+                        {id:152,category:2,name:'152',label:'武昌_购物',     symbolSize:20,ignore:true,flag:true,type:'武昌'},
+                        {id:153,category:2,name:'153',label:'武昌_体育',     symbolSize:20,ignore:true,flag:true,type:'武昌'},
+                        {id:154,category:2,name:'154',label:'武昌_医疗',     symbolSize:20,ignore:true,flag:true,type:'武昌'},
+                        {id:155,category:2,name:'155',label:'武昌_教育',     symbolSize:20,ignore:true,flag:true,type:'武昌'},
+                        {id:156,category:2,name:'156',label:'武昌_政府',     symbolSize:20,ignore:true,flag:true,type:'武昌'},
+                        {id:157,category:2,name:'157',label:'武昌_住宅',     symbolSize:20,ignore:true,flag:true,type:'武昌'},
+                        {id:158,category:2,name:'158',label:'新洲_宾馆',    symbolSize:20,ignore:true,flag:true,type:'新洲'},
+                        {id:159,category:2,name:'159',label:'新洲_餐饮',    symbolSize:20,ignore:true,flag:true,type:'新洲'},
+                        {id:160,category:2,name:'160',label:'新洲_风景',     symbolSize:20,ignore:true,flag:true,type:'新洲'},
+                        {id:161,category:2,name:'161',label:'新洲_公共设施', symbolSize:20,ignore:true,flag:true,type:'新洲'},
+                        {id:162,category:2,name:'162',label:'新洲_公司',     symbolSize:20,ignore:true,flag:true,type:'新洲'},
+                        {id:163,category:2,name:'163',label:'新洲_生活',     symbolSize:20,ignore:true,flag:true,type:'新洲'},
+                        {id:164,category:2,name:'164',label:'新洲_购物',     symbolSize:20,ignore:true,flag:true,type:'新洲'},
+                        {id:165,category:2,name:'165',label:'新洲_体育',     symbolSize:20,ignore:true,flag:true,type:'新洲'},
+                        {id:166,category:2,name:'166',label:'新洲_医疗',     symbolSize:20,ignore:true,flag:true,type:'新洲'},
+                        {id:167,category:2,name:'167',label:'新洲_教育',     symbolSize:20,ignore:true,flag:true,type:'新洲'},
+                        {id:168,category:2,name:'168',label:'新洲_政府',     symbolSize:20,ignore:true,flag:true,type:'新洲'},
+                        {id:169,category:2,name:'169',label:'新洲_住宅',     symbolSize:20,ignore:true,flag:true,type:'新洲'},
+                    ],
+                links : [ {source : 1,target : 0}, {source : 2,target : 0}, {source : 3,target : 0},
+                    {source : 4,target : 0}, {source : 5,target : 0}, {source : 6,target : 0},
+                    {source : 7,target : 0}, {source : 8,target : 0}, {source : 9,target : 0},
+                    {source : 10,target : 0}, {source : 11,target : 0}, {source : 12,target : 0}, {source : 13,target : 0},
+                    {source : 14,target : 1}, {source : 15,target : 1}, {source : 16,target : 1},
+                    {source : 17,target : 1}, {source : 18,target : 1}, {source : 19,target : 1},
+                    {source : 20,target : 1}, {source : 21,target : 1}, {source : 22,target : 1},
+                    {source : 23,target : 1}, {source : 24,target : 1}, {source : 25,target : 1},
+                    {source : 26,target : 2}, {source : 27,target : 2}, {source : 28,target : 2},
+                    {source : 29,target : 2}, {source : 30,target : 2}, {source : 31,target : 2},
+                    {source : 32,target : 2}, {source : 33,target : 2}, {source : 34,target : 2},
+                    {source : 35,target : 2}, {source : 36,target : 2}, {source : 37,target : 2},
+                    {source : 38,target : 3}, {source : 39,target : 3}, {source : 40,target : 3},
+                    {source : 41,target : 3}, {source : 42,target : 3}, {source : 43,target : 3},
+                    {source : 44,target : 3}, {source : 45,target : 3}, {source : 46,target : 3},
+                    {source : 47,target : 3}, {source : 48,target : 3}, {source : 49,target : 3},
+                    {source : 50,target : 4}, {source : 51,target : 4}, {source : 52,target : 4},
+                    {source : 53,target : 4}, {source : 54,target : 4}, {source : 55,target : 4},
+                    {source : 56,target : 4}, {source : 57,target : 4}, {source : 58,target : 4},
+                    {source : 59,target : 4}, {source : 60,target : 4}, {source : 61,target : 4},
+                    {source : 62,target : 5}, {source : 63,target : 5}, {source : 64,target : 5},
+                    {source : 65,target : 5}, {source : 66,target : 5}, {source : 67,target : 5},
+                    {source : 68,target : 5}, {source : 69,target : 5}, {source : 70,target : 5},
+                    {source : 71,target : 5}, {source : 72,target : 5}, {source : 73,target : 5},
+                    {source : 74,target : 6}, {source : 75,target : 6}, {source : 76,target : 6},
+                    {source : 77,target : 6}, {source : 78,target : 6}, {source : 79,target : 6},
+                    {source : 80,target : 6}, {source : 81,target : 6}, {source : 82,target : 6},
+                    {source : 83,target : 6}, {source : 84,target : 6}, {source : 85,target : 6},
+                    {source : 86,target : 7}, {source : 87,target : 7}, {source : 88,target : 7},
+                    {source : 89,target : 7}, {source : 90,target : 7}, {source : 91,target : 7},
+                    {source : 92,target : 7}, {source : 93,target : 7}, {source : 94,target : 7},
+                    {source : 95,target : 7}, {source : 96,target : 7}, {source : 97,target : 7},
+                    {source : 98,target : 8}, {source : 99,target : 8}, {source : 100,target : 8},
+                    {source : 101,target : 8}, {source : 102,target : 8}, {source : 103,target : 8},
+                    {source : 104,target : 8}, {source : 105,target : 8}, {source : 106,target : 8},
+                    {source : 107,target : 8}, {source : 108,target : 8}, {source : 109,target : 8},
+                    {source : 110,target : 9}, {source : 111,target : 9}, {source : 112,target : 9},
+                    {source : 113,target : 9}, {source : 114,target : 9}, {source : 115,target : 9},
+                    {source : 116,target : 9}, {source : 117,target : 9}, {source : 118,target : 9},
+                    {source : 119,target : 9}, {source : 120,target : 9}, {source : 121,target : 9},
+                    {source : 122,target : 10}, {source : 123,target : 10}, {source : 124,target : 10},
+                    {source : 125,target : 10}, {source : 126,target : 10}, {source : 127,target : 10},
+                    {source : 128,target : 10}, {source : 129,target : 10}, {source : 130,target : 10},
+                    {source : 131,target : 10}, {source : 132,target : 10}, {source : 133,target : 10},
+                    {source : 134,target : 11}, {source : 135,target : 11}, {source : 136,target : 11},
+                    {source : 137,target : 11}, {source : 138,target : 11}, {source : 139,target : 11},
+                    {source : 140,target : 11}, {source : 141,target : 11}, {source : 142,target : 11},
+                    {source : 143,target : 11}, {source : 144,target : 11}, {source : 145,target : 11},
+                    {source : 146,target : 12}, {source : 147,target : 12}, {source : 148,target : 12},
+                    {source : 149,target : 12}, {source : 150,target : 12}, {source : 151,target : 12},
+                    {source : 152,target : 12}, {source : 153,target : 12}, {source : 154,target : 12},
+                    {source : 155,target : 12}, {source : 156,target : 12}, {source : 157,target : 12},
+                    {source : 158,target : 13}, {source : 159,target : 13}, {source : 160,target : 13},
+                    {source : 161,target : 13}, {source : 162,target : 13}, {source : 163,target : 13},
+                    {source : 164,target : 13}, {source : 165,target : 13}, {source : 166,target : 13},
+                    {source : 167,target : 13}, {source : 168,target : 13}, {source : 169,target : 13}
+                ]
+            } ]
+        };
+        myChart.setOption(option);
+        var ecConfig = require('echarts/config');
+        function openOrFold(param) {
+            var option = myChart.getOption();
+            var nodesOption = option.series[0].nodes;
+            var linksOption = option.series[0].links;
+            var data = param.data;
+            var linksNodes = [];
+
+            var categoryLength = option.series[0].categories.length;
+
+            if (data.category == (categoryLength - 1)) {
+                alert(data.label);
+            }
+            if (data != null && data != undefined) {
+                if (data.flag) {
+
+                    for ( var m in linksOption) {
+
+                        if (linksOption[m].target == data.id) {
+                            linksNodes.push(linksOption[m].source);
+                        }
+                    }
+                    if (linksNodes != null && linksNodes != undefined) {
+                        for ( var p in linksNodes) {
+                            nodesOption[linksNodes[p]].ignore = false;
+                            nodesOption[linksNodes[p]].flag = true;
+                        }
+                    }
+                    nodesOption[data.id].flag = false;
+                    myChart.setOption(option);
+                } else {
+
+                    for ( var m in linksOption) {
+
+                        if (linksOption[m].target == data.id) {
+                            linksNodes.push(linksOption[m].source);
+                        }
+                        if (linksNodes != null && linksNodes != undefined) {
+                            for ( var n in linksNodes) {
+                                if (linksOption[m].target == linksNodes[n]) {
+                                    linksNodes.push(linksOption[m].source);
+                                }
+                            }
+                        }
+                    }
+                    if (linksNodes != null && linksNodes != undefined) {
+                        for ( var p in linksNodes) {
+                            nodesOption[linksNodes[p]].ignore = true;
+                            nodesOption[linksNodes[p]].flag = true;
+                        }
+                    }
+                    nodesOption[data.id].flag = true;
+                    myChart.setOption(option);
+                }
+            }
+        }
+        myChart.on(ecConfig.EVENT.CLICK, openOrFold);
+
+    });
+</script>
+</body>
+
+
+</html>
