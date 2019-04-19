@@ -54,19 +54,44 @@ function runCypherQuery(query, params, callback) {
         })
 }
 
-//Let’s fire some queries as shown below.
-runCypherQuery(
-    'CREATE (dis:Dis { name: {name}, id: {id}} ) RETURN dis', {
-        name: '蔡甸区',
-        id: 396860
-    }, function (err, body) {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log(body);
-        }
-    }
-);
+
+
 /**-----------------------------**/
 
+//Create a db object. We will using this object to work on the DB.
+db = new neo4j('http://localhost:7474');
+
+/**
+ * 测试连接Neo4j数据库
+ */
+function testConnectDB() {
+    //Let’s fire some queries as shown below.
+    runCypherQuery(
+        'CREATE (dis:Dis { name: {name}, id: {id}} ) RETURN dis', {
+            name: '蔡甸区',
+            id: 396860
+        }, function (err, body) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(body);
+            }
+        }
+    );
+    //Run raw cypher with params
+    db.cypherQuery(
+        'CREATE (somebody:Person { name: {name}, from: {company}, age: {age} }) RETURN somebody',
+        {
+            name: 'Ghuffran',
+            company: 'Modulus',
+            age: ~~(Math.random() * 100) //generate random age
+        }, function (err, result) {
+            if (err) {
+                return console.log(err);
+            }
+            console.log(result.data); // delivers an array of query results
+            console.log(result.columns); // delivers an array of names of objects getting returned
+        }
+    );
+}
 module.exports = router;
