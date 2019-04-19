@@ -29,13 +29,10 @@ router.post("/demo",function (req,res) {
     res.status(200).send(A+B+C) ;
 });
 
-/**
- * 你自己的代码，不知道你要干啥的
- */
-/**-----------------------------**/
+
 //require 引入文件流
 var fs =require('fs');
-
+var request=require('request');
 //requeire the neo4j module
 var neo4j = require('node-neo4j');
 
@@ -48,7 +45,7 @@ var httpUrlForTransaction = 'http://' + host + ':' + port + '/db/data/transactio
 
 //Let’s define a function which fires the cypher query.
 function runCypherQuery(query, params, callback) {
-    router.post({
+    request.post({
             uri: httpUrlForTransaction,
             json: {statements: [{statement: query, parameters: params}]}
         },
@@ -62,11 +59,11 @@ runCypherQuery(
     'CREATE (dis:Dis { name: {name}, id: {id}} ) RETURN dis', {
         name: '蔡甸区',
         id: 396860
-    }, function (err, resp) {
+    }, function (err, body) {
         if (err) {
             console.log(err);
         } else {
-            console.log(resp);
+            console.log(body);
         }
     }
 );
